@@ -1,34 +1,27 @@
 function mergeSortedArrays(arrayA, arrayB) {
   let merged = [];
-  let currentMergedIndex = 0;
-  let arrayAIndex = 0;
-  let arrayBIndex = 0;
+  let currentIndexMerged = 0;
+  let currentIndexA = 0;
+  let currentIndexB = 0;
+  let isArrayAExhausted;
+  let isArrayBExhausted;
 
-  while (currentMergedIndex < arrayA.length + arrayB.length) {
-    // Neither array has been exhausted
-    if (arrayAIndex < arrayA.length && arrayBIndex < arrayB.length) {
-      // Array A's item is next
-      if (arrayA[arrayAIndex] < arrayB[arrayBIndex]) {
-        merged[currentMergedIndex] = arrayA[arrayAIndex];
-        currentMergedIndex++;
-        arrayAIndex++;
-        // Array B's item is next
-      } else {
-        merged[currentMergedIndex] = arrayB[arrayBIndex];
-        currentMergedIndex++;
-        arrayBIndex++;
-      }
-      // Array A has been exhausted
-    } else if (arrayAIndex === arrayA.length) {
-      merged[currentMergedIndex] = arrayB[arrayBIndex];
-      currentMergedIndex++;
-      arrayBIndex++;
-      // Array B has been exhausted
+  while (currentIndexMerged < arrayA.length + arrayB.length) {
+    isArrayAExhausted = arrayA[currentIndexA] >= arrayA.length;
+    isArrayBExhausted = arrayB[currentIndexB] >= arrayB.length;
+
+    // Array A has been exhausted or Array B's item is next
+    if (
+      !isArrayAExhausted &&
+      (!isArrayBExhausted || arrayA[currentIndexA] < arrayB[currentIndexB])
+    ) {
+      merged[currentIndexMerged] = arrayA[currentIndexA];
+      currentIndexA++;
     } else {
-      merged[currentMergedIndex] = arrayA[arrayAIndex];
-      currentMergedIndex++;
-      arrayAIndex++;
+      merged[currentIndexMerged] = arrayB[currentIndexB];
+      currentIndexB++;
     }
+    currentIndexMerged++;
   }
   return merged;
 }
